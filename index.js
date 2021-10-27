@@ -42,8 +42,14 @@ async function run() {
       const database = client.db("foodMaster");
       const usersCollection = database.collection("users");
 
-      //post api
+      //get api
+      app.get('/users', async (req, res) => {
+         const cursor = usersCollection.find({});
+         const users = await cursor.toArray();
+         res.send(users);
+      })
 
+      //post api
       app.post('/users', async (req, res) => {
          // console.log('hitting post', req.body);
          // res.send('inside post')
