@@ -45,10 +45,15 @@ async function run() {
       //post api
 
       app.post('/users', async (req, res) => {
-         console.log('hitting post', req.body);
-         res.send('inside post')
+         // console.log('hitting post', req.body);
+         // res.send('inside post')
 
-         // const newUser = req.body;
+         const newUser = req.body;
+         const result = await usersCollection.insertOne(newUser);
+         console.log('got new user', req.body);
+         console.log('added user', result);
+         res.json(result);
+
          // newUser.id = users.length;
          // users.push(newUser);
          // console.log('hitting post', req.body);
@@ -59,7 +64,7 @@ async function run() {
 
 
    } finally {
-      await client.close();
+      // await client.close();
    }
 }
 run().catch(console.dir);
