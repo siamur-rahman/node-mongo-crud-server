@@ -1,6 +1,10 @@
 const express = require('express');
 const { MongoClient } = require('mongodb');
 const cors = require('cors');
+
+const ObjectId = require('mongodb').ObjectId;
+
+
 const app = express();
 
 //middlewere
@@ -9,33 +13,13 @@ app.use(express.json());
 
 const port = 5000;
 
-
 //user  siamdbuser1
 //password 055JI4vtFvDQx9dK
-
-
 
 
 const uri = "mongodb+srv://siamdbuser1:055JI4vtFvDQx9dK@cluster0.wrybq.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
-// //etai async await diye korbo//////or///////////
-// client.connect(err => {
-//    const collection = client.db("foodMaster").collection("users");
-//    // perform actions on the collection object
-//    // console.log('hit data');//ami likhchi
-
-//    const user = { name: "akhiiiihi", email: 'kkk@gmail.com', phone: "01736464437" }
-//    collection.insertOne(user)
-//       .then(() => {
-//          console.log('insert success');
-//       })
-
-//    // console.error(err)//ami likhchi
-//    // client.close();
-// });
-
-//etai async await diye korbo//////or///////////
 async function run() {
    try {
       await client.connect();
@@ -51,22 +35,28 @@ async function run() {
 
       //post api
       app.post('/users', async (req, res) => {
-         // console.log('hitting post', req.body);
-         // res.send('inside post')
 
          const newUser = req.body;
          const result = await usersCollection.insertOne(newUser);
          console.log('got new user', req.body);
          console.log('added user', result);
          res.json(result);
+      })
 
-         // newUser.id = users.length;
-         // users.push(newUser);
-         // console.log('hitting post', req.body);
-         // //res.send(JSON.stringify(newUser))
-         // res.json(newUser);
+      //delete api
+      app.delete('/users/:id', async (req, res) => {
+
+         const id = req.params.id;
+         const query = { _id: ObjectId(id) };
+         const result = await usersCollection.deleteOne(query);
+         console.log('delete id', result);
+         console.log('delete', id)
+         res.json(1);
+
+
 
       })
+
 
 
    } finally {
