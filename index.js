@@ -51,7 +51,7 @@ async function run() {
          const result = await usersCollection.deleteOne(query);
          console.log('delete id', result);
          console.log('delete', id)
-         res.json(1);
+         res.json(result);
 
 
 
