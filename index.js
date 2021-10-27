@@ -33,6 +33,14 @@ async function run() {
          res.send(users);
       })
 
+      //get api single user
+      app.get('/users/:id', async (req, res) => {
+         const id = req.params.id;
+         console.log('load user with id', id);
+         res.send('getting soon');
+      })
+
+
       //post apii
       app.post('/users', async (req, res) => {
 
