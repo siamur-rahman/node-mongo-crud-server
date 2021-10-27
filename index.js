@@ -33,7 +33,7 @@ async function run() {
          res.send(users);
       })
 
-      //post api
+      //post apii
       app.post('/users', async (req, res) => {
 
          const newUser = req.body;
