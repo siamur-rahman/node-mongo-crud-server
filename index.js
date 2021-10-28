@@ -43,6 +43,8 @@ async function run() {
       })
 
 
+
+
       //post apii
       app.post('/users', async (req, res) => {
 
@@ -52,6 +54,30 @@ async function run() {
          console.log('added user', result);
          res.json(result);
       })
+
+
+
+      //put api  --------update
+      app.put('/users/:id', async (req, res) => {
+         const id = req.params.id;
+         const updatedUser = req.body;
+         const filter = { _id: ObjectId(id) };
+         const options = { upserts: true };
+         const updateDoc = {
+            $set: {
+               name: updatedUser.name,
+               email: updatedUser.email
+            },
+
+
+         };
+         const result = await usersCollection.updateOne(filter, updateDoc, options)
+
+         // console.log('updating user', req);
+         // res.send('UPDATING NOT DATING')
+         res.json(result)
+      })
+
 
       //delete api
       app.delete('/users/:id', async (req, res) => {
